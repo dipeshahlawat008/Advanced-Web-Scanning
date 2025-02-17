@@ -1,0 +1,143 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <meta name="viewport" content="width=device-width, initial-scale=1.0">-->
+<!--    <title>Web Scanner</title>-->
+<!--    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">-->
+<!--</head>-->
+<!--<body>-->
+<!--    <div class="container">-->
+<!--        <h1>Web Scanner</h1>-->
+<!--        <div class="scan-form">-->
+<!--            <input type="text" id="urlInput" placeholder="Enter URL to scan">-->
+<!--            <button onclick="startScan()">Start Scan</button>-->
+<!--        </div>-->
+
+<!--        <div id="scanStatus" style="display: none;">-->
+<!--            <h2>Scan Status</h2>-->
+<!--            <p>Pages Found: <span id="pagesCount">0</span></p>-->
+<!--            <p>Hidden Directories: <span id="hiddenDirsCount">0</span></p>-->
+<!--            <p>PHP Files: <span id="phpFilesCount">0</span></p>-->
+<!--            <p>Encoded Data Found: <span id="encodedDataCount">0</span></p>-->
+<!--        </div>-->
+
+<!--        <div id="networkInfo" style="display: none;">-->
+<!--            <h2>Network Information</h2>-->
+<!--            <pre id="networkInfoData"></pre>-->
+<!--        </div>-->
+<!--    </div>-->
+
+<!--    <script src="{{ url_for('static', filename='script.js') }}"></script>-->
+<!--</body>-->
+<!--</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Advanced Web Scanner</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Advanced Web Scanner</h1>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('url-scan')">URL Scanner</button>
+            <button class="tab-btn" onclick="switchTab('network-scan')">Network Scanner</button>
+        </div>
+
+        <!-- URL Scanner Tab -->
+        <div id="url-scan" class="tab-content active">
+            <div class="scan-form">
+                <input type="text" id="urlInput" placeholder="Enter URL to scan (e.g., https://example.com)">
+                <div class="options">
+                    <label><input type="checkbox" id="crawlPages"> Crawl Pages</label>
+                    <label><input type="checkbox" id="findDirs"> Directory Search</label>
+                    <label><input type="checkbox" id="findPhp"> PHP Files</label>
+                    <label><input type="checkbox" id="findEncoded"> Encoded Data</label>
+                </div>
+                <button onclick="startUrlScan()" class="primary-btn">
+                    <span class="material-icons">search</span> Start URL Scan
+                </button>
+            </div>
+        </div>
+
+        <!-- Network Scanner Tab -->
+        <div id="network-scan" class="tab-content">
+            <div class="scan-form">
+                <input type="text" id="networkInput" placeholder="Enter IP/Domain (e.g., 192.168.1.1 or domain.com)">
+                <div class="options">
+                    <label><input type="checkbox" id="scanSubnet"> Scan Subnet</label>
+                    <label><input type="checkbox" id="dnsEnum"> DNS Enumeration</label>
+                    <label><input type="checkbox" id="dirBuster"> Directory Buster</label>
+                    <label><input type="checkbox" id="portScan"> Port Scan</label>
+                </div>
+                <div class="advanced-options">
+                    <input type="text" id="portRange" placeholder="Port Range (e.g., 80,443,8000-8080)">
+                    <input type="text" id="wordlist" placeholder="Custom Wordlist Path">
+                </div>
+                <button onclick="startNetworkScan()" class="primary-btn">
+                    <span class="material-icons">network_check</span> Start Network Scan
+                </button>
+            </div>
+        </div>
+
+        <!-- Results Section -->
+        <div id="results" class="results-container" style="display: none;">
+            <div class="progress-bar">
+                <div id="scanProgress" class="progress"></div>
+            </div>
+
+            <div class="results-tabs">
+                <button class="result-tab-btn active" onclick="showResult('scanStatus')">Scan Status</button>
+                <button class="result-tab-btn" onclick="showResult('networkInfo')">Network Info</button>
+                <button class="result-tab-btn" onclick="showResult('vulnerabilities')">Vulnerabilities</button>
+            </div>
+
+            <div id="scanStatus" class="result-content active">
+                <h2>Scan Status <span id="statusBadge" class="badge">Running</span></h2>
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <span class="material-icons">find_in_page</span>
+                        <h3>Pages Found</h3>
+                        <p id="pagesCount">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <span class="material-icons">folder</span>
+                        <h3>Directories</h3>
+                        <p id="hiddenDirsCount">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <span class="material-icons">php</span>
+                        <h3>PHP Files</h3>
+                        <p id="phpFilesCount">0</p>
+                    </div>
+                    <div class="stat-card">
+                        <span class="material-icons">code</span>
+                        <h3>Encoded Data</h3>
+                        <p id="encodedDataCount">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="networkInfo" class="result-content">
+                <h2>Network Information</h2>
+                <div class="network-grid">
+                    <pre id="networkInfoData"></pre>
+                </div>
+            </div>
+
+            <div id="vulnerabilities" class="result-content">
+                <h2>Potential Vulnerabilities</h2>
+                <div id="vulnList" class="vuln-list"></div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
